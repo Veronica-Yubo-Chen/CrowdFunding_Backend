@@ -1,4 +1,4 @@
-# Glwup - Beauty Product Crowdfunding Platform
+# Glwup - Beauty Product Crowdfunding Platform (generate from LLM)
 **By Veronica Yubo Chen**
 
 ## Planning
