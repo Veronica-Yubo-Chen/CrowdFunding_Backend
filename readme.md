@@ -1,179 +1,320 @@
-# Glwup - Beauty Product Crowdfunding Platform (the words generated from LLM)
-**By Veronica Yubo Chen**
+# ✨ Glwup ✨ - Beauty Product Crowdfunding Platform
 
-## Planning
+**Vote with your wallet on beauty product reviews you want to see**
 
-### Concept/Name
+A full-stack crowdfunding platform for beauty enthusiasts to fund product reviews and comparisons. Support creators. Discover honest reviews. Get your glow up.
+
+**Created by:** Veronica Yubo Chen
+
+---
+
+## 📱 Deployed Project
+
+- **Frontend:** https://magnificent-meringuee-d6339fs.netlify.app
+- **Backend API:** https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com
+- **API Root Endpoint:** https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/ (returns JSON documentation)
+
+---
+
+## 🎯 Project Overview
+
+### Concept
 **Glwup** (pronounced "Glow Up") is a crowdfunding platform for beauty enthusiasts. Users can create campaigns to fund product reviews, comparisons, and beauty content. Supporters pledge to campaigns they're interested in, and creators provide detailed product comparisons with links to purchase the reviewed items.
 
 The platform connects beauty content creators with their audience, allowing the community to vote with their wallets on which product comparisons they want to see.
 
-### Intended Audience/User Stories
-**Target Audience:** Beauty enthusiasts, skincare lovers, makeup artists, and content creators aged 18-45 who want honest product comparisons before making purchases.
+### Target Audience
+Beauty enthusiasts, skincare lovers, makeup artists, and content creators aged 18-45 who want honest product comparisons before making purchases.
 
-**User Stories:**
-- As a **beauty content creator**, I want to create fundraising campaigns so that I can fund product reviews and comparisons.
-- As a **beauty enthusiast**, I want to support campaigns for products I'm interested in so that I can get honest reviews.
-- As a **supporter**, I want to pledge anonymously if I prefer privacy.
-- As a **campaign owner**, I want to update my campaign description to keep supporters informed.
-- As a **user**, I want to see external links to products so I can purchase them directly.
+### Core Features
+- 👤 User authentication with token-based login
+- 💄 Create and manage beauty product review campaigns
+- 💰 Pledge to support campaigns you believe in
+- 🔍 Search and filter campaigns by category
+- 🛡️ Permission-based access control
+- ✅ Funding goal protection
+- 🚫 Duplicate pledge prevention
+- 📊 Real-time funding status tracking
 
-### Front End Pages/Functionality
-- **Home Page**
-    - Display all open fundraising campaigns
-    - Filter by category (Skincare, Makeup, Haircare, etc.)
-    - Search functionality
-    - Responsive grid layout
+---
 
-- **Campaign Detail Page**
-    - Full campaign description and image
-    - Progress bar showing funding goal
-    - List of pledges (with anonymous option)
-    - External product link button
-    - Pledge form for authenticated users
+## 🛠️ Tech Stack
 
-- **Create Campaign Page** (Authenticated)
-    - Form to create new fundraiser
-    - Image URL input
-    - Category selection
-    - Product link input
+### Backend
+- **Framework:** Django 5.1 + Django REST Framework
+- **Database:** PostgreSQL (Heroku)
+- **Authentication:** Token-based (rest_framework.authtoken)
+- **Deployment:** Heroku
 
-- **User Profile Page**
-    - View owned campaigns
-    - View pledges made
-    - Edit profile
+### Frontend
+- **Framework:** React 19 + Vite
+- **Router:** React Router v7.13
+- **State Management:** React Context API
+- **Styling:** CSS with purple-pink gradient theme
+- **Deployment:** Netlify
 
-- **Login/Register Pages**
-    - User authentication forms
-    - Token-based login
+---
 
-### API Spec
+## 🚀 Quick Start Guide
 
-| URL | HTTP Method | Purpose | Request Body | Success Response Code | Authentication/Authorisation |
-| --- | ----------- | ------- | ------------ | --------------------- | ---------------------------- |
-| `/fundraisers/` | GET | List all fundraisers | None | 200 | None |
-| `/fundraisers/` | POST | Create new fundraiser | `{title, description, goal, image, category, product_link}` | 201 | Token Required |
-| `/fundraisers/<id>/` | GET | Get fundraiser details | None | 200 | None |
-| `/fundraisers/<id>/` | PUT | Update fundraiser | `{title, description, goal, image, is_open, category, product_link}` | 200 | Owner Only |
-| `/fundraisers/<id>/` | DELETE | Delete fundraiser | None | 204 | Owner Only |
-| `/pledges/` | GET | List all pledges | None | 200 | None |
-| `/pledges/` | POST | Create new pledge | `{amount, comment, anonymous, fundraiser}` | 201 | Token Required |
-| `/pledges/<id>/` | GET | Get pledge details | None | 200 | None |
-| `/pledges/<id>/` | PUT | Update pledge | `{amount, comment, anonymous}` | 200 | Supporter Only |
-| `/pledges/<id>/` | DELETE | Delete pledge | None | 204 | Supporter Only |
-| `/users/` | GET | List all users | None | 200 | None |
-| `/users/` | POST | Register new user | `{username, email, password}` | 201 | None |
-| `/users/<id>/` | GET | Get user details | None | 200 | None |
-| `/api-token-auth/` | POST | Obtain auth token | `{username, password}` | 200 | None |
+### Step 1: Register a New User
 
-### DB Schema
-
+**In Insomnia/Postman:**
 ```
-┌─────────────────────┐       ┌─────────────────────┐
-│     customUser      │       │     Fundraiser      │
-├─────────────────────┤       ├─────────────────────┤
-│ id (PK)             │       │ id (PK)             │
-│ username            │       │ title               │
-│ email               │◄──────┤ owner (FK)          │
-│ password            │       │ description         │
-└─────────────────────┘       │ goal                │
-         │                    │ image               │
-         │                    │ is_open             │
-         │                    │ date_created        │
-         │                    │ category            │
-         │                    │ product_link        │
-         │                    └─────────────────────┘
-         │                              │
-         │                              │
-         │                    ┌─────────────────────┐
-         │                    │       Pledge        │
-         │                    ├─────────────────────┤
-         │                    │ id (PK)             │
-         └───────────────────►│ supporter (FK)      │
-                              │ fundraiser (FK)     │◄────┘
-                              │ amount              │
-                              │ comment             │
-                              │ anonymous           │
-                              └─────────────────────┘
+Method: POST
+URL: https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/users/
+Body (JSON):
+{
+  "username": "your_username",
+  "email": "your_email@example.com",
+  "password": "secure_password"
+}
 ```
 
-## Setup Instructions
+✅ **Response (201 Created):**
+```json
+{
+  "id": 1,
+  "username": "your_username",
+  "email": "your_email@example.com"
+}
+```
+
+### Step 2: Get Authentication Token
+
+```
+Method: POST
+URL: https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/api-token-auth/
+Body (JSON):
+{
+  "username": "your_username",
+  "password": "secure_password"
+}
+```
+
+✅ **Response (200 OK):**
+```json
+{
+  "token": "your_token_here",
+  "user_id": 1,
+  "email": "your_email@example.com"
+}
+```
+
+**Save the token for all authenticated requests!**
+
+### Step 3: Create Your First Campaign
+
+```
+Method: POST
+URL: https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/fundraisers/
+Headers:
+  Authorization: Token your_token_here
+  Content-Type: application/json
+Body (JSON):
+{
+  "title": "Best K-Beauty Moisturizers Comparison",
+  "description": "I'll test and review the top Korean skincare moisturizers",
+  "goal": 500,
+  "image": "https://example.com/campaign.jpg",
+  "category": "Skincare",
+  "is_open": true
+}
+```
+
+✅ **Response (201 Created):** Campaign object with id
+
+### Step 4: View Your Campaign
+
+```
+Method: GET
+URL: https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/fundraisers/{campaign_id}/
+```
+
+✅ **Response (200 OK):** Full campaign details with nested pledges
+
+### Step 5: Make a Pledge
+
+```
+Method: POST
+URL: https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/pledges/
+Headers:
+  Authorization: Token your_token_here
+  Content-Type: application/json
+Body (JSON):
+{
+  "amount": 50,
+  "comment": "Love this campaign!",
+  "anonymous": false,
+  "fundraiser": 1
+}
+```
+
+✅ **Response (201 Created):** Pledge object
+
+---
+
+## 📚 API Specification
+
+### API Root - Documentation Endpoint
+```
+GET https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/
+```
+
+Returns comprehensive JSON documentation of all available endpoints, features, and validation rules.
+
+### Authentication Endpoint
+```
+POST /api-token-auth/
+Content-Type: application/json
+
+Request:
+{
+  "username": "user",
+  "password": "pass"
+}
+
+Response (200 OK):
+{
+  "token": "string",
+  "user_id": integer,
+  "email": "string"
+}
+```
+
+### User Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | /users/ | List all users | No |
+| POST | /users/ | Register new user | No |
+| GET | /users/{id}/ | Get user profile | No |
+| GET | /users/me/ | Get current user | Yes |
+| PUT | /users/{id}/ | Update profile | Yes (owner) |
+| DELETE | /users/{id}/ | Delete account | Yes (owner) |
+
+### Fundraiser Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | /fundraisers/ | List campaigns (search: ?search=, category: ?category=, is_open: ?is_open=, funded: ?funded=) | No |
+| POST | /fundraisers/ | Create campaign | Yes |
+| GET | /fundraisers/{id}/ | Get campaign with pledges | No |
+| PUT | /fundraisers/{id}/ | Update campaign | Yes (owner) |
+| DELETE | /fundraisers/{id}/ | Delete campaign | Yes (owner) |
+
+### Pledge Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|----------------|
+| GET | /pledges/ | List all pledges | No |
+| POST | /pledges/ | Create pledge | Yes + Validation |
+| GET | /pledges/{id}/ | Get pledge | No |
+| PUT | /pledges/{id}/ | Update pledge | Yes (supporter) |
+| DELETE | /pledges/{id}/ | Delete pledge | Yes (supporter) |
+
+---
+
+## 📊 Database Schema
+
+```
+┌─────────────────────────────────┐
+│         User (customUser)       │
+├─────────────────────────────────┤
+│ id (PK)                         │
+│ username (unique)               │
+│ email                           │
+│ password (hashed)               │
+│ date_joined                     │
+│ is_active                       │
+└──────────────┬──────────────────┘
+               │
+         ┌─────┼─────┐
+         │           │
+         ▼           ▼
+┌─────────────────┐  ┌──────────────────┐
+│  Fundraiser     │  │      Pledge      │
+├─────────────────┤  ├──────────────────┤
+│ id (PK)         │  │ id (PK)          │
+│ title           │  │ amount           │
+│ description     │  │ comment          │
+│ goal            │  │ anonymous        │
+│ image (URL)     │  │ date_created     │
+│ is_open         │  │ fundraiser (FK)  │
+│ is_public       │  │ supporter (FK)   │
+│ category        │  │ unique_together: │
+│ product_link    │  │  (fundraiser,    │
+│ date_created    │  │   supporter)     │
+│ deadline        │  │                  │
+│ owner (FK)  ────┼──┤ foreign keys:    │
+│             ────┼──│  CASCADE delete  │
+└─────────────────┘  └──────────────────┘
+        ▲
+        │
+   Many-to-Many through Pledges
+```
+
+### Relationships
+- **User → Fundraiser** (One-to-Many): User owns many campaigns
+- **User → Pledge** (One-to-Many): User makes many pledges
+- **Fundraiser → Pledge** (One-to-Many): Campaign receives many pledges
+- **Pledge Constraint**: unique_together('fundraiser', 'supporter')
+
+---
+
+## ✨ Advanced Features
+
+| Feature | Description |
+|---------|-------------|
+| **Funding Goal Protection** | Pledges auto-blocked when goal reached |
+| **Duplicate Pledge Prevention** | Users can only pledge once per campaign |
+| **Pledge Validation** | Amount > 0, campaign must accept pledges |
+| **Search & Filtering** | Search by title/description, filter by category/status/funding |
+| **Calculated Fields** | total_pledged, is_funded, can_accept_pledges |
+| **Campaign Deadlines** | Optional time-based campaign limits |
+| **Permission Controls** | Owner/Supporter-only updates and deletes |
+| **Nested Serializers** | Pledges included in campaign detail view |
+
+---
+
+## 🧪 Setup Instructions
 
 ### Prerequisites
-- Python 3.10+
-- pip
+- Python 3.12+
+- Django 5.1
+- PostgreSQL (Heroku) or SQLite (local)
 
-### Installation
+### Local Development Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/Veronica-Yubo-Chen/CrowdFunding_Backend.git
+# Clone repository
+git clone https://github.com/Veronica-Yubo-Chen/CrowdFunding_Backend
 cd CrowdFunding_Backend
 
-# Create and activate virtual environment
+# Create virtual environment
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run migrations
+# Configure environment
 cd crowdfunding
+echo "DJANGO_SECRET_KEY=dev-secret" > .env
+echo "DJANGO_DEBUG=True" >> .env
+
+# Run migrations
 python manage.py migrate
 
 # Create superuser (optional)
 python manage.py createsuperuser
 
-# Run development server
+# Start server
 python manage.py runserver
 ```
 
-### API Testing Examples
+Visit: http://localhost:8000
 
-```bash
-# Register a new user
-curl -X POST http://127.0.0.1:8000/users/ \
-  -H "Content-Type: application/json" \
-  -d '{"username": "beautyqueen", "email": "beauty@example.com", "password": "securepass123"}'
+---
 
-# Get auth token
-curl -X POST http://127.0.0.1:8000/api-token-auth/ \
-  -H "Content-Type: application/json" \
-  -d '{"username": "beautyqueen", "password": "securepass123"}'
-
-# Create a fundraiser (use token from above)
-curl -X POST http://127.0.0.1:8000/fundraisers/ \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN_HERE" \
-  -d '{
-    "title": "Top 5 Vitamin C Serums Comparison",
-    "description": "I will test and compare the top 5 vitamin C serums on the market",
-    "goal": 500,
-    "image": "https://example.com/vitc-serum.jpg",
-    "category": "Skincare",
-    "product_link": "https://example.com/buy-serums"
-  }'
-
-# Create a pledge
-curl -X POST http://127.0.0.1:8000/pledges/ \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Token YOUR_TOKEN_HERE" \
-  -d '{
-    "amount": 25,
-    "comment": "Can not wait to see the results!",
-    "anonymous": false,
-    "fundraiser": 1
-  }'
-```
-
-## Features Implemented
-
-- ✅ User registration and authentication
-- ✅ Token-based authentication with user details
-- ✅ CRUD operations for fundraisers
-- ✅ CRUD operations for pledges
-- ✅ Owner-only permissions for fundraiser updates
-- ✅ Supporter-only permissions for pledge updates
-- ✅ Custom 404 error handler (JSON response)
-- ✅ Beauty-specific fields (category, product_link)
-- ✅ Proper HTTP status codes
+## 📋 Complete API Endpoint Reference
