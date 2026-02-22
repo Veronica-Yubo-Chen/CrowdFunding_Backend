@@ -40,10 +40,24 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOWED_ORIGINS = [
     'https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com',
+    'https://magnificent-meringue-d639f5.netlify.app',
     'https://magnificent-meringuee-d6339fs.netlify.app',
     'http://localhost:5173',
     'http://localhost:3000',
     'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
