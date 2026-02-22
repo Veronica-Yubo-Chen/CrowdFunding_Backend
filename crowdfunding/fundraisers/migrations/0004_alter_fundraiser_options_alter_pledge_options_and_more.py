@@ -36,8 +36,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='fundraiser',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=1),
-            preserve_default=False,
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AddField(
             model_name='fundraiser',
@@ -53,8 +52,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pledge',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default=1),
-            preserve_default=False,
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
             model_name='fundraiser',
