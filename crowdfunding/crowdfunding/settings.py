@@ -25,17 +25,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    'DJANGO_SECRET_KEY',
-    '<your-secret-key>'
-)
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get(
-    'DJANGO_DEBUG'
-) != 'False'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError('DJANGO_SECRET_KEY environment variable must be set')
 
-ALLOWED_HOSTS = ['*']
-CORS_ORIGIN_ALLOW_ALL = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
+
+ALLOWED_HOSTS = [
+    'yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com',
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
