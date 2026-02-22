@@ -10,7 +10,7 @@ A full-stack crowdfunding platform for beauty enthusiasts to fund product review
 
 ## 📱 Deployed Project
 
-- **Frontend:** https://magnificent-meringuee-d6339fs.netlify.app
+- **Frontend:** https://magnificent-meringue-d639f5.netlify.app (CORRECT URL)
 - **Backend API:** https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com
 - **API Root Endpoint:** https://yubo-crowdfunding-shecodes-f2aced9e5879.herokuapp.com/ (returns JSON documentation)
 
