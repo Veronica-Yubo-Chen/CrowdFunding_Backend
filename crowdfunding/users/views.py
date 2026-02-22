@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from .models import customUser
 from .serializers import CustomUserSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -37,6 +37,46 @@ class CustomUserDetail(APIView):
     def get(self, request, pk):
         user = self.get_object(pk)
         serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        """Update user profile - only the user can update their own profile"""
+        user = self.get_object(pk)
+        
+        # Check if the requester is updating their own profile
+        if request.user.id != user.id:
+            return Response(
+                {'detail': 'You can only update your own profile.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer = CustomUserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        """Delete user account - only the user can delete their own account"""
+        user = self.get_object(pk)
+        
+        # Check if the requester is deleting their own account
+        if request.user.id != user.id:
+            return Response(
+                {'detail': 'You can only delete your own account.'},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CurrentUser(APIView):
+    """Get the currently logged-in user's profile"""
+    permission_classes = [permissions.IsAuthenticated]
+    
+    def get(self, request):
+        serializer = CustomUserSerializer(request.user)
         return Response(serializer.data)
     
 class CustomAuthToken(ObtainAuthToken):

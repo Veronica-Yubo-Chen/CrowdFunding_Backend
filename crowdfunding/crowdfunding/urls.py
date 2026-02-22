@@ -15,10 +15,31 @@ class ApiRoot(APIView):
             "description": "A crowdfunding platform for beauty enthusiasts to fund product reviews and comparisons",
             "version": "1.0",
             "endpoints": {
-                "login": "/api-token-auth/",
-                "users": "/users/",
-                "fundraisers": "/fundraisers/",
-                "pledges": "/pledges/",
+                "authentication": {
+                    "login": "POST /api-token-auth/",
+                },
+                "users": {
+                    "list": "GET /users/",
+                    "create": "POST /users/",
+                    "current": "GET /users/me/ (requires authentication)",
+                    "retrieve": "GET /users/<id>/",
+                    "update": "PUT /users/<id>/ (requires authentication, owner only)",
+                    "delete": "DELETE /users/<id>/ (requires authentication, owner only)",
+                },
+                "fundraisers": {
+                    "list": "GET /fundraisers/",
+                    "create": "POST /fundraisers/ (requires authentication)",
+                    "retrieve": "GET /fundraisers/<id>/",
+                    "update": "PUT /fundraisers/<id>/ (requires authentication, owner only)",
+                    "delete": "DELETE /fundraisers/<id>/ (requires authentication, owner only)",
+                },
+                "pledges": {
+                    "list": "GET /pledges/",
+                    "create": "POST /pledges/ (requires authentication)",
+                    "retrieve": "GET /pledges/<id>/",
+                    "update": "PUT /pledges/<id>/ (requires authentication, supporter only)",
+                    "delete": "DELETE /pledges/<id>/ (requires authentication, supporter only)",
+                }
             }
         })
 
