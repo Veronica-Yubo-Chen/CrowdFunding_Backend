@@ -112,8 +112,8 @@ class PledgeList(APIView):
         serializer = PledgeSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                # Run full model validation
-                pledge = Pledge(**serializer.validated_data)
+                # Set supporter from authenticated user
+                pledge = Pledge(**serializer.validated_data, supporter=request.user)
                 pledge.full_clean()  # Runs the clean() method
                 pledge.save()
                 return Response(PledgeSerializer(pledge).data, status=status.HTTP_201_CREATED)

@@ -6,7 +6,7 @@ class PledgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = apps.get_model('fundraisers', 'Pledge')
         fields = ['id', 'amount', 'comment', 'anonymous', 'fundraiser', 'supporter', 'date_created']
-        read_only_fields = ['date_created']
+        read_only_fields = ['date_created', 'supporter']  # supporter is set by backend
 
     def validate_amount(self, value):
         """Validate pledge amount is positive"""
